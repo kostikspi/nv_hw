@@ -51,7 +51,8 @@
             "data_dir": "/kaggle/working/",
             "part": "test",
             "max_audio_length": 40.0,
-            "max_text_length": 400
+            "max_text_length": 400,
+            "limit": 20
           }
         }
       ]
@@ -80,7 +81,7 @@
     "type": "OneCycleLR",
     "args": {
       "steps_per_epoch": 100,
-      "epochs": 50,
+      "epochs": 150,
       "anneal_strategy": "cos",
       "max_lr": 1e-2,
       "pct_start": 0.2
@@ -90,7 +91,7 @@
     "type": "OneCycleLR",
     "args": {
       "steps_per_epoch": 100,
-      "epochs": 50,
+      "epochs": 150,
       "anneal_strategy": "cos",
       "max_lr": 1e-2,
       "pct_start": 0.2
