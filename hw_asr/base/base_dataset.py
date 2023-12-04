@@ -62,7 +62,10 @@ class BaseDataset(Dataset):
         return len(self._index)
 
     def load_audio(self, path):
-        audio_tensor, sr = torchaudio.load(path, num_frames=32768)
+        if self.config_parser["preprocessing"]["cut"]:
+            audio_tensor, sr = torchaudio.load(path, num_frames=32768)
+        else:
+            audio_tensor, sr = torchaudio.load(path)
         # audio_tensor, sr = torchaudio.load(path)
         audio_tensor = audio_tensor[0:1, :]  # remove all channels but the first
         target_sr = self.config_parser["preprocessing"]["sr"]
