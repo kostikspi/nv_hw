@@ -1,0 +1,111 @@
+{
+  "name": "train_gan_kaggle",
+  "n_gpu": 1,
+  "preprocessing": {
+    "sr": 22050,
+    "spectrogram": {
+      "type": "MelSpectrogram",
+      "args": {
+      }
+    },
+    "log_spec": false
+  },
+  "augmentations": {
+    "wave": [],
+    "spectrogram": []
+  },
+  "arch": {
+    "type": "HiFiGAN",
+    "args": {
+      "kernels_u": [16, 16, 4, 4],
+      "dilations": [[[1, 1], [3, 1], [5, 1]],
+        [[1, 1], [3, 1], [5, 1]],
+        [[1, 1], [3, 1], [5, 1]]],
+      "out_channels": 512,
+      "kernels_r": [3, 7, 11]
+    }
+  },
+  "data": {
+    "train": {
+      "batch_size": 16,
+      "num_workers": 0,
+      "datasets": [
+        {
+          "type": "LJspeechDataset",
+          "args": {
+            "data_dir": "/kaggle/working/",
+            "part": "train",
+            "max_audio_length": 40.0,
+            "max_text_length": 400
+          }
+        }
+      ]
+    },
+    "val": {
+      "batch_size": 8,
+      "num_workers": 0,
+      "datasets": [
+        {
+          "type": "LJspeechDataset",
+          "args": {
+            "data_dir": "/kaggle/working/",
+            "part": "test",
+            "max_audio_length": 40.0,
+            "max_text_length": 400
+          }
+        }
+      ]
+    }
+  },
+  "optimizer_generator": {
+    "type": "AdamW",
+    "args": {
+      "lr": 1e-2
+    }
+  },
+  "optimizer_discriminator": {
+    "type": "AdamW",
+    "args": {
+      "lr": 1e-2
+    }
+  },
+  "loss": {
+    "type": "CTCLoss",
+    "args": {}
+  },
+  "metrics": [
+
+  ],
+  "lr_scheduler_generator": {
+    "type": "OneCycleLR",
+    "args": {
+      "steps_per_epoch": 100,
+      "epochs": 50,
+      "anneal_strategy": "cos",
+      "max_lr": 1e-2,
+      "pct_start": 0.2
+    }
+  },
+  "lr_scheduler_discriminator": {
+    "type": "OneCycleLR",
+    "args": {
+      "steps_per_epoch": 100,
+      "epochs": 50,
+      "anneal_strategy": "cos",
+      "max_lr": 1e-2,
+      "pct_start": 0.2
+    }
+  },
+  "trainer": {
+    "epochs": 150,
+    "save_dir": "kaggle/working/saved/",
+    "save_period": 5,
+    "verbosity": 2,
+    "monitor": "min val_loss",
+    "early_stop": 100,
+    "visualize": "wandb",
+    "wandb_project": "neural_vocoder_project",
+    "len_epoch": 100,
+    "grad_norm_clip": 10
+  }
+}
