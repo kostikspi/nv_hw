@@ -2,7 +2,8 @@
 
 ## Installation guide
 
-Report
+Report: https://api.wandb.ai/links/kostiksaiteam/eo97hby7
+Logs: https://wandb.ai/kostiksaiteam/neural_vocoder_project/table?workspace=user-kostiksai
 
 Download model checkpoint from Google Drive
 
