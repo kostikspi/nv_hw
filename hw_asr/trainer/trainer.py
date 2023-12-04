@@ -178,7 +178,7 @@ class Trainer(BaseTrainer):
         else:
             batch["logits"] = outputs
 
-        pred_mel = self.mel(batch["gen_audio"])
+        pred_mel = self.mel(batch["gen_audio"].cpu()).to(self.device)
         batch["mel_loss"] = self.criterion["mel_loss"](pred_mel.squeeze(1), batch["spectrogram"])
         batch["generator_loss"] = (self.criterion["generator_loss"](batch["mpd_outputs"])
                                    + self.criterion["generator_loss"](batch["msd_outputs"]))
